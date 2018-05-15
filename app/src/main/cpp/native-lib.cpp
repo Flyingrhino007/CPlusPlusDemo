@@ -4,15 +4,6 @@
 #include <malloc.h>
 #include <string.h>
 
-extern "C"
-JNIEXPORT jstring JNICALL
-Java_com_example_jnidemo_cplusplusdemo_MainActivity_stringFromJNI(
-        JNIEnv *env,
-        jobject /* this */) {
-    std::string hello = "Hello from C++";
-    return env->NewStringUTF(hello.c_str());
-}
-
 
 // 标准命名空间（包含很多标准的定义）
 // std == standard
@@ -39,30 +30,31 @@ namespace NSP_B {
     }
 }
 
-//void main() {
-////    std::cout << "this is c plus plus " << std::endl;// c++ 运算符重载  使其有意义
-//    cout << "this is c plus plus " << endl;// 等效上面
-//    // 使用命名空间
-//    // :: 访问修饰符
-//    cout << NSP_A::a << endl;
-//    cout << NSP_B::a << endl;
-//    //
-//    cout << NSP_B::NSP_C::c << endl;
-//
-//    // 使用结构体 Teacher
-////    struct NSP_B::NSP_C::Teacher teacher;
-////    teacher.age = 10;
-//
-//    // 太长了，所以为了缩短 使用 using
-////    using namespace NSP_A;
-////    Teacher teacher1;
-////    teacher1.age = 10;
-//
-//    // 为了防止重复，直接指定使用的using   struct没写都ok，故可以去掉
-//    using NSP_B::NSP_C::Teacher;
-//    Teacher teacher;
-//    teacher.age = 10;
-//};
+int main() {
+    std::cout << "this is c plus plus " << std::endl;// c++ 运算符重载  使其有意义
+    cout << "this is c plus plus " << endl;// 等效上面
+    // 使用命名空间
+    // :: 访问修饰符
+    cout << NSP_A::a << endl;
+    cout << NSP_B::a << endl;
+    //
+    cout << NSP_B::NSP_C::c << endl;
+
+    // 使用结构体 Teacher
+    struct NSP_B::NSP_C::Teacher teacher;
+    teacher.age = 10;
+
+    // 太长了，所以为了缩短 使用 using
+    using namespace NSP_A;
+    Teacher teacher1;
+    teacher1.age = 10;
+
+    // 为了防止重复，直接指定使用的using   struct没写都ok，故可以去掉
+    using NSP_B::NSP_C::Teacher;
+    Teacher teacher2;
+    teacher2.age = 10;
+    return 0;
+};
 
 
 const double PI = 3.14;
@@ -85,7 +77,7 @@ public:
     };
 };
 
-void main1() {
+int main1() {
     // new 出来的是一个指针
     Circle *c = new Circle();
     c->setR(4);
@@ -94,6 +86,7 @@ void main1() {
     Circle circle;
     circle.setR(4);
     cout << "圆的面积：" << circle.getS() << endl;
+    return 0;
 };
 
 
@@ -118,12 +111,15 @@ void main2() {
 void main3() {
     // 1 true( > 0 ) 0 false( < 0 )
     bool isSingle = -17;
+    bool isSingle1 = 0;
+    bool isSingle2 = 17;
+    bool isSingle3 = 1;
 
     cout << isSingle << endl;
     cout << sizeof(isSingle) << endl;  // 字节数=1         == char
 };
 
-void mian4() {
+void main4() {
     int a = 10;
     int b = 20;
     // 三元运算符 可以作值
@@ -393,16 +389,16 @@ void func1(int i, ...) { // 读出所有的参数
 void main16() {
     func1(0, 8, 8, 8, 8, 8, 0, 8, 88, 1);
 };
-
-//C++类的普遍写法
-#include "MyTeacher.h"
-
-void main17() {
-    MyTeacher1 myTeacher;
-    myTeacher.name = "";
-    myTeacher.age = 0;
-    cout << myTeacher.getName() << endl;
-};
+//
+////C++类的普遍写法
+//#include "MyTeacher.h"
+//
+//void main17() {
+//    MyTeacher1 myTeacher;
+//    myTeacher.name = "sdsads";
+//    myTeacher.age = 0;
+//    cout << myTeacher.getName() << endl;
+//};
 
 //构造函数、析构函数、拷贝构造函数
 class Teacher4 {
@@ -550,4 +546,17 @@ void main22() {
 
     Teacher6 t2 = t1; //内部的值进行了赋值，所以算是深copy
     t2.myprint();
+}
+
+
+
+
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_com_example_jnidemo_cplusplusdemo_MainActivity_stringFromJNI(
+        JNIEnv *env,
+        jobject /* this */) {
+    std::string hello = "Hello from C++";
+
+    return env->NewStringUTF(hello.c_str());
 }
