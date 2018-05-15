@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include <malloc.h>
+#include <string.h>
 
 extern "C"
 JNIEXPORT jstring JNICALL
@@ -396,7 +397,7 @@ void main16() {
 //C++类的普遍写法
 #include "MyTeacher.h"
 
-void main17(){
+void main17() {
     MyTeacher1 myTeacher;
     myTeacher.name = "";
     myTeacher.age = 0;
@@ -404,5 +405,149 @@ void main17(){
 };
 
 //构造函数、析构函数、拷贝构造函数
+class Teacher4 {
+private:
+    char *name;
+    int age;
+public:
+    //无参构造函数（写了，就会覆盖默认的无参构造函数）
+    Teacher4() {
+        cout << "无参构造函数" << endl;
+    };
+
+    //有参构造函数会覆盖默认的构造函数
+    Teacher4(char *name, int age) {
+        this->name = name;
+        this->age = age;
+        cout << "有参构造函数" << endl;
+    };
+};
+
+void main18() {
+    Teacher4 teacher; // 创建就会调用 无惨构造函数
+    Teacher4 teacher1("jick", 25);
+
+    //另外一种调用方式    类似于new一个对象的方式，针对类，针对引用
+    Teacher4 teacher2 = Teacher4("jick", 25);
+};
 
 
+// 析构函数
+class Teacher5 {
+private:
+    char *name;
+    int age;
+public:
+    //无参构造函数赋默认值
+    Teacher5() {
+        this->name = (char *) malloc(100);
+        strcpy(name, "jick");
+        this->age = 20;
+        cout << "无参构造函数" << endl;
+    };
+
+    Teacher5(char *name, int age) {
+        int len = strlen(name);
+        this->name = (char *) malloc(len + 1);
+        strcpy(this->name, name);
+        this->age = age;
+        cout << "有参构造函数" << endl;
+    }
+
+    //析构函数
+    //当对象要被系统释放时，析构函数被调用
+    //作用：善后处理
+    ~Teacher5() {
+        cout << "析构" << endl;
+        free(this->name);
+    }
+
+    void myprint() {
+        cout << name << "," << age << endl;
+    }
+};
+
+void main19() {
+    Teacher5 teacher5; // 调用无惨赋值，释放的时候调用析构函数
+}
+
+//拷贝构造函数
+class Teacher6 {
+private:
+    char *name;
+    int age;
+public:
+    Teacher6(char *name, int age) {
+        int len = strlen(name);
+        this->name = (char *) malloc(len + 1);
+        strcpy(this->name, name);
+        this->age = age;
+        cout << "有参构造函数" << endl;
+    }
+
+    ~Teacher6() {
+        cout << "析构" << endl;
+        //释放内存
+        free(this->name);
+    }
+
+    // 引用就是其别名
+    Teacher6(const Teacher6 &obj) {
+        //复制name属性
+        int len = strlen(obj.name);
+        this->name = (char *) malloc(len + 1);
+        strcpy(this->name, obj.name);
+        this->age = obj.age;
+        cout << "拷贝构造函数" << endl;
+    };
+
+    void myprint() {
+        cout << name << "," << age << endl;
+    }
+};
+
+
+Teacher6 func1(Teacher6 t) {
+    t.myprint();
+    return t;
+}
+
+
+void main20() {
+    Teacher6 teacher6("jick", 20);
+
+    //拷贝构造函数被调用的场景
+    //1.声明时赋值
+//    Teacher6 teacher61(teacher6);
+//    Teacher6 teacher62=Teacher6((teacher6));
+    Teacher6 teacher63 = teacher6;
+    teacher63.myprint();
+
+
+    //2.作为参数传入，实参给形参赋值 ,(因为里面是创建了一个局部的类，所以相当于copy)
+    func1(teacher6);
+    //3.作为函数返回值返回，给变量初始化赋值
+    Teacher6 t3 = func1(teacher6);
+
+
+    //这里不会被调用
+    //Teacher6 t1 ;
+    //Teacher6 t2;
+    //t1 = t2;
+}
+
+//浅拷贝（值拷贝）问题
+void main21() {
+    Teacher5 t1("rose", 20);
+
+    Teacher5 t2 = t1; // 因为没有实现内部值的copy，所以算是浅copy
+    t2.myprint();
+}
+
+//深拷贝
+void main22() {
+    Teacher6 t1("rose", 20);
+
+    Teacher6 t2 = t1; //内部的值进行了赋值，所以算是深copy
+    t2.myprint();
+}
