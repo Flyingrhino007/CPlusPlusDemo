@@ -643,7 +643,7 @@ public:
 //C	  malloc(free)
 void main24() {
     // c++
-    // 与c的写法的区别：    会调用构造和析构函数
+    // 与c的写法的区别：    new调用构造  delete调用析构函数
     Teacher8 *t1 = new Teacher8("jack");
     cout << t1->getName() << endl;
     //释放
@@ -668,6 +668,137 @@ void main24() {
 }
 
 
+//static 静态属性和方法
+
+class Teacher9 {
+public:
+    char *name;
+    //计数器
+    static int total;
+public:
+    Teacher9(char *name) {
+        this->name = name;
+        cout << "Teacher有参构造函数" << endl;
+    }
+
+    ~Teacher9() {
+        cout << "Teacher析构函数" << endl;
+    }
+
+    void setName(char *name) {
+        this->name = name;
+    }
+
+    char *getName() {
+        return this->name;
+    }
+
+    //计数，静态函数
+    static void count() {
+        total++;
+        cout << total << endl;
+    }
+};
+
+//静态属性初始化赋值   - 只能全局初始化，可以局部代码修改
+int Teacher9::total = 9;
+
+void main25() {
+    Teacher9::total++;
+    cout << Teacher9::total << endl;
+    //直接通过类名访问
+    Teacher9::count();
+//    BB::AA::Teacher9::count();  // 命名空间+内部命名空间+类名+函数名
+
+    //也可以通过对象名访问
+    Teacher9 teacher9("sds");
+    teacher9.total++;
+    teacher9.count();
+}
+
+
+//类的大小
+class A {
+public:
+    int i;
+    int j;
+    int k;
+    static int m;
+};
+
+class B {
+public:
+    int i;
+    int j;
+    int k;
+
+    // 函数可以理解成  指针存的函数地址
+    void myprintf() {
+        cout << "打印" << endl;
+    }
+};
+
+void main26() {
+    cout << sizeof(A) << endl;
+    cout << sizeof(B) << endl; // 按照道理是 4*4=16，实际12 就是因为分区的不同
+
+    //C/C++ 内存分区：栈、堆、全局（静态、全局）、常量区（字符串）、程序代码区
+
+    //普通属性与结构体相同的内存布局
+    //JVM Stack（基本数据类型、对象引用）
+    //Native Method Stack（本地方法栈）
+    //方法区
+}
+
+//this，当前对象的指针
+//函数是共享的，必须要有能够标识当前对象是谁的办法
+class Teacher10 {
+private:
+    char *name;
+    int age;
+public:
+    Teacher10(char *name, int age) {
+        this->name = name;
+        this->age = age;
+        cout << "Teacher有参构造函数" << endl;
+    }
+
+    ~Teacher10() {
+        cout << "Teacher析构函数" << endl;
+    }
+
+    //常函数，修饰的是this, 就是this 被禁止不能修改属性和其他
+    //既不能改变指针的值，又不能改变指针指向的内容
+    //const Teacher* const this
+    void myprint() const {
+        printf("%#x\n", this);
+        //改变属性的值
+//		this->name = "yuehang";
+        //改变this指针的值
+//		this = (Teacher*)0x00009;
+        cout << this->name << "," << this->age << endl;
+    }
+
+    void myprint2() {
+        cout << this->name << "," << this->age << endl;
+    }
+};
+
+void main27() {
+    Teacher10 t1("jack", 18);
+
+    const Teacher10 t2("rose", 20);
+    //    t2.myprint2();// 常量对象只能调用常量函数，不能调用非常量函数
+    //常函数，当前对象不能被修改，防止数据成员被非法访问
+
+
+    printf("%#x\n", &t1);
+    t1.myprint();
+
+    printf("%#x\n", &t2);
+    t2.myprint();
+}
+
 extern "C"
 JNIEXPORT jstring JNICALL
 Java_com_example_jnidemo_cplusplusdemo_MainActivity_stringFromJNI(
@@ -677,5 +808,7 @@ Java_com_example_jnidemo_cplusplusdemo_MainActivity_stringFromJNI(
 
     main23();
     main24();
+    main25();
+    main26();
     return env->NewStringUTF(hello.c_str());
 }
