@@ -548,7 +548,124 @@ void main22() {
     t2.myprint();
 }
 
+// 浅copy : 仅仅只是copy指针的地址
+// 深copy : copy 的是指针指向的数据内容
 
+//构造函数的属性初始化列表
+
+class Teacher7 {
+private:
+    char *name;
+public:
+    // 浅赋值
+    Teacher7(char *name) {
+        this->name = name;
+        cout << "Teacher有参构造函数" << endl;
+    }
+
+    ~Teacher7() {
+        cout << "Teacher析构函数" << endl;
+    }
+
+    char *getName() {
+        return this->name;
+    }
+};
+
+
+class Student {
+private:
+    int id;
+    // 属性对象
+//    Teacher7 t=Teacher7("jick");// 调用有参  ,但是不好，因为值固定了，按道理来说不需要固定值
+    Teacher7 t1;// 调用无惨
+    Teacher7 t2;
+
+public:
+
+    // 有参构造 需要把里面的属性对象全部初始化
+    Student(int id, char *t1_n, char *t2_n) : t1(t1_n), t2(t2_n) {
+        this->id = id;
+        cout << "Student有参构造函数" << endl;
+    };
+
+
+    void myPrintf() {
+        cout << id << "," << t1.getName() << "," << t2.getName() << endl;
+    };
+
+    ~Student() {
+        cout << "Student析构函数" << endl;
+    };
+};
+
+void main23() {
+    Student s1(10, "miss bo", "mrs liu");
+    //Student s2(20, "miss cang", "jason");
+    s1.myPrintf();
+    //s2.myPrintf();
+
+    // 顺序 teacher先创建 -> student 先析构
+}
+
+
+//C++ 通过new(delete)动态内存分配   ,  new 出来的是存堆内存的，所以需要释放堆内存空间
+//C	  malloc(free)
+
+
+class Teacher8 {
+private:
+    char *name;
+public:
+    Teacher8(char *name)
+//            : name(name)
+    {
+        this->name = name;
+//        Teacher8::name = name;
+        cout << "Teacher有参构造函数" << endl;
+    }
+
+    char *getName() const {
+        return name;
+    }
+
+    void setName(char *name) {
+        Teacher8::name = name;
+    }
+
+    ~Teacher8() {
+        cout << "Teacher8析构函数" << endl;
+    }
+};
+
+
+//C++ 通过new(delete)动态内存分配
+//C	  malloc(free)
+void main24() {
+    // c++
+    // 与c的写法的区别：    会调用构造和析构函数
+    Teacher8 *t1 = new Teacher8("jack");
+    cout << t1->getName() << endl;
+    //释放
+    delete t1;
+
+    //C
+//    Teacher8 *t2 = (Teacher8*)malloc(sizeof(Teacher8));
+//    t2->setName("jack");
+//    free(t2);
+
+    // 数组类型
+    // C
+    int *p = (int *) malloc(sizeof(int) * 10);
+    p[0] = 9;
+    free(p);
+
+    // C++
+    int *p2 = new int[10];
+    p2[0] = 2;
+    // 释放数组
+    delete[] p2;
+}
 
 
 extern "C"
@@ -558,5 +675,7 @@ Java_com_example_jnidemo_cplusplusdemo_MainActivity_stringFromJNI(
         jobject /* this */) {
     std::string hello = "Hello from C++";
 
+    main23();
+    main24();
     return env->NewStringUTF(hello.c_str());
 }
