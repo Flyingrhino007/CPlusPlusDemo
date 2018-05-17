@@ -799,6 +799,174 @@ void main27() {
     t2.myprint();
 }
 
+//友元函数
+class C {
+    // 友元函数
+    friend void modify_i(C *p, int a);
+
+private:
+    int i;
+public:
+    C(int i) {
+        this->i = i;
+    };
+
+    void myprint() {
+        cout << i << endl;
+    };
+};
+
+//友元函数的实现，在友元函数中可以访问私有的属性
+void modify_i(C *p, int a) {
+    p->i = a;
+};
+
+
+void main28() {
+    C *a = new C(201);
+    a->myprint();
+
+    // 目的：外部使用友元函数 访问内部的属性
+    modify_i(a, 20);
+    a->myprint();
+};
+
+//友元类
+class D {
+    //友元类
+    friend class E;
+
+private:
+    int i;
+public:
+    D(int i) {
+        this->i = i;
+    }
+
+    void myprint() {
+        cout << i << endl;
+    }
+};
+
+class E {
+private:
+    D d;
+public:
+    //E这个友元类可以访问A类的任何成员
+    void accessAny() {
+        d.i = 30;
+    };
+};
+
+
+//运算符重载   operator  XX
+/*class Point {
+public:
+    int x;
+    int y;
+public:
+    Point(int x = 0, int y = 0) {
+        this->x = x;
+        this->y = y;
+    };
+
+    void myprint() {
+        cout << x << "," << y << endl;
+    }
+};
+
+// 重载+号
+Point operator+(Point &p1, Point &p2) {
+    Point tem(p1.x + p2.x, p1.y + p2.y);
+    return tem;
+};
+
+
+// 重载-号
+Point operator-(Point &p1, Point &p2) {
+    Point tem(p1.x - p2.x, p1.y - p2.y);
+    return tem;
+};
+
+
+void main29() {
+    Point point(10, 20);
+    Point point1(20, 10);
+
+    Point point2 = point + point1;
+    point2.myprint();
+
+    Point point3 = point - point1;
+    point2.myprint();
+};*/
+
+//成员函数，运算符重载
+/*
+class Point{
+public:
+    int x;
+    int y;
+public:
+    Point(int x = 0, int y = 0){
+        this->x = x;
+        this->y = y;
+    }
+    // 重载+号    成员函数，运算符重载
+    Point operator+(Point &p2) {
+        Point tem(this->x + p2.x, this->y + p2.y);
+        return tem;
+    };
+    void myprint(){
+        cout << x << "," << y << endl;
+    }
+};
+
+void main30() {
+    Point p1(10, 20);
+    Point p2(20, 10);
+
+    //运算符的重载，本质还是函数调用
+    Point p3 = p1.operator+(p2);
+    p3.myprint();
+
+    Point p4 = p1 + p2;
+    p4.myprint();
+};*/
+
+//当属性私有时，通过友元函数完成运算符重载
+class Point {
+    friend Point operator+(Point &p1, Point &p2);
+
+private:
+    int x;
+    int y;
+public:
+    Point(int x = 0, int y = 0) {
+        this->x = x;
+        this->y = y;
+    }
+
+    void myprint() {
+        cout << x << "," << y << endl;
+    }
+};
+
+Point operator+(Point &p1, Point &p2) {
+    Point tmp(p1.x + p2.x, p1.y + p2.y);
+    return tmp;
+}
+
+void main31() {
+    Point p1(10, 20);
+    Point p2(20, 10);
+
+//运算符的重载，本质还是函数调用
+    Point p4 = p1 + p2;
+    p4.myprint();
+};
+
+
+
 extern "C"
 JNIEXPORT jstring JNICALL
 Java_com_example_jnidemo_cplusplusdemo_MainActivity_stringFromJNI(
