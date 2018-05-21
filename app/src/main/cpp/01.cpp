@@ -264,7 +264,7 @@ void main(){
 // 继承的二义性
 // 虚继承：( virtual )  不同路径继承来的同名成员只有一份拷贝，解决不明确的问题
 
-class A {
+/*class A {
 public:
     char *name;
 };
@@ -287,14 +287,137 @@ void main() {
     b.A1::name = "json";
     b.A2::name = "json";
 
-}
+}*/
 
 
-//虚函数
+//虚函数 ( virtual )
 //多态（程序的扩展性）
+//动态多态：程序运行过程中，觉得哪一个函数被调用（重写）
+//静态多态：重载
+
+//发生动态的条件：
+//1.继承
+//2.父类的引用或者指针指向子类的对象
+//3.函数的重写
+
+/*#include "Plane.h"
+#include "Jet.h"
+#include "Copter.h"
+
+// 业务函数 -- 执行起飞，落地函数
+void bizPlay(Plane &plane) {
+    plane.fly();
+    plane.land();
+};
+
+int main() {
+    Plane plane;
+    bizPlay(plane); // 起飞 ，降落
+
+    //直升飞机
+    Jet jet;
+    bizPlay(jet);// 起飞 ，降落
+
+    // 上面没有执行多态，都执行了父类的函数，
+    // 用virtual 修饰了头文件，就执行了子类方法的调用了
+
+    //喷气飞机
+    Copter copter;
+    bizPlay(copter);
 
 
+    return 0;
+}*/
 
+//纯虚函数(抽象类)
+//1.当一个类具有一个纯虚函数，这个类就是抽象类
+//2.抽象类不能实例化对象
+//3.子类继承抽象类，必须要实现纯虚函数，如果没有，子类也是抽象类
+//抽象类的作用：为了继承约束，根本不知道未来的实现
+
+//形状
+/*class Shape {
+public:
+    // 纯虚函数  XX=0
+    virtual void sayArea()=0;
+
+    void print() {
+        cout << "hi" << endl;
+    };
+};
+
+class Circle : public Shape {
+public:
+    Circle(int r) {
+        this->r = r;
+    }
+
+    // 必须实现父类纯虚函数，否则报错
+    void sayArea() {
+        cout << "圆的面积：" << (3.14 * r * r) << endl;
+    }
+
+private:
+    int r;
+};
+
+int main() {
+//    Shape shape;// 抽象类不能实现对象，会报错
+
+    Circle circle(10);
+    return 0;
+};*/
+
+//接口（只是逻辑上的划分，语法上跟抽象类的写法没有区别）
+//可以当做一个接口  ( 必须写 =0,默认=0)
+/*
+class Drawble {
+    virtual void draw();
+};
+
+int main() {
+//    Shape shape;// 抽象类不能实现对象，会报错
+
+    Drawble drawble;
+    return 0;
+};*/
+
+
+//模板函数（泛型）
+
+void myswip(int &a, int &b) {
+    int temp = a;
+    a = b;
+    b = temp;
+};
+
+void myswip(char &a, char &b) {
+    char temp = a;
+    a = b;
+    b = temp;
+};
+
+//发现：这两个函数业务逻辑一样，数据类型不一样
+template<typename T>
+//template<typename T,typename Z>
+void myswip(T &a, T &b) {
+    T temp = a;
+    a = b;
+    b = temp;
+};
+
+int main() {
+    // 根据实际类型，自动推到而出
+    int a = 10, b = 20;
+    myswip<int >(a, b);
+    cout << "a:" << a << " b:" << b << endl;
+
+    char x = 'v', y = 'w';
+    myswip<char >(x, y);
+    cout << "x:" << x << " y:" << y << endl;
+
+    return 0;
+}
 
 extern "C"
 JNIEXPORT jstring JNICALL
@@ -302,7 +425,6 @@ Java_com_example_jnidemo_cplusplusdemo_MainActivity_intFromJNI(
         JNIEnv *env,
         jobject /* this */) {
     std::string hello = "Hello from C++";
-
 
     main();
     return env->NewStringUTF(hello.c_str());
