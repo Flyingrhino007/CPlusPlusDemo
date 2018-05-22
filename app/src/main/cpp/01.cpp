@@ -385,7 +385,7 @@ int main() {
 
 //模板函数（泛型）
 
-void myswip(int &a, int &b) {
+/*void myswip(int &a, int &b) {
     int temp = a;
     a = b;
     b = temp;
@@ -405,7 +405,6 @@ void myswip(T &a, T &b) {
     a = b;
     b = temp;
 };
-
 int main() {
     // 根据实际类型，自动推到而出
     int a = 10, b = 20;
@@ -417,9 +416,192 @@ int main() {
     cout << "x:" << x << " y:" << y << endl;
 
     return 0;
+}*/
+
+//模板类
+template<class T>
+class A {
+public:
+    A(T a) {
+        this->a = a;
+    };
+protected:
+    T a;
+};
+
+//普通类继承模板类
+class B : public A<int> {
+public:
+    B(int a, int b) : A<int>(a) {
+        this->b = b;
+    }
+
+private:
+    int b;
+};
+
+//模板类继承模板类
+template<class T>
+class B : public A<T> {
+public:
+    B(T a, T b) : A<T>(a) {
+        this->b = b;
+    }
+
+private:
+    T b;
+};
+
+int main() {
+    // 实例化模板类对象
+    // List<String>
+    A<int> a(6);
+    B<int> b(6, 3);
+
+    return 0;
+};
+
+
+
+
+
+
+
+
+
+
+
+// c++ 异常处理，根据抛出的异常数据类型，进入到相应的catch块中
+/*
+ * void main(){
+    try {
+        int age = 300;
+        if (age > 200) {
+            throw 9.8;
+        }
+    } catch (char *b) {
+        cout << "char异常" << b << endl;
+    } catch (int a) {
+        cout << "int异常" << endl;
+    } catch (...) {
+        cout << "未知异常" << endl;
+    }
+};
+ */
+
+//throw 抛出函数外
+/*void mydiv(int a, int b) {
+    if (b == 0) {
+        throw "除数为0";
+    }
+};
+
+void func(){
+    try {
+        mydiv(8, 0);
+    } catch (char *a) {
+        throw a;
+    }
+};
+
+void main(){
+    try {
+        func();
+    } catch (char *a) {
+        cout <<a << endl;
+    }
+};*/
+
+// 抛出异常
+// 异常类
+/*class MyException {
+};
+
+void mydiv(int a, int b)
+//throw(MyException)  // 这样也可以
+{
+    if (b == 0) {
+        throw MyException(); // 抛出引用，就没有这个问题了
+        //throw new MyException; // 不要抛出异常指针
+    }
 }
 
-extern "C"
+void main() {
+    try {
+        mydiv(8, 0);
+    } catch (MyException &exception1) {
+        cout << "MyException引用" << endl;
+    }
+        //会产生对象的副本
+        //catch (MyException e){
+        //	cout << "MyException" << endl;
+        //}
+        // 别new 出来，因为还需要释放，太麻烦
+    catch (MyException *e1) {
+        cout << "MyException指针" << endl;
+        delete e1;
+    }
+};*/
+
+//throw 声明函数会抛出的异常类型
+/*void mydiv(int a, int b)throw(char*, int) {
+    if (b == 0) {
+        throw "除数为0";
+    }
+}*/
+
+
+#include <stdexcept>
+//标准异常（类似于JavaNullPointerException）
+/*class NullPointerException : public exception {
+public:
+    NullPointerException(char *msg) : exception() {
+
+    }
+};
+
+void mydiv(int a, int b) {
+    if (b > 10) {
+        throw out_of_range("超出范围");
+    } else if (b == NULL) {
+        throw NullPointerException("为空");
+    } else if (b == 0) {
+        throw invalid_argument("参数不合法");
+    }
+}
+
+int main() {
+    try {
+        mydiv(8, NULL);
+    } catch (out_of_range e1) {
+        cout << e1.what() << endl;
+    } catch (NullPointerException &e2) {
+        cout << e2.what() << endl;
+    } catch (...) {
+        cout << "未知异常" << endl;
+    }
+    return 0;
+}*/
+
+//外部类异常
+/*class Err {
+public:
+    class MyException {
+    public:
+        MyException() {}
+    };
+};
+
+void mydiv(int a, int b) {
+    if (b > 10) {
+        throw Err::MyException();
+    }
+};*/
+
+
+
+extern; "C"
+
 JNIEXPORT jstring JNICALL
 Java_com_example_jnidemo_cplusplusdemo_MainActivity_intFromJNI(
         JNIEnv *env,
