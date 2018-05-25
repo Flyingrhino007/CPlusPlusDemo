@@ -419,7 +419,7 @@ int main() {
 }*/
 
 //模板类
-template<class T>
+/*template<class T>
 class A {
 public:
     A(T a) {
@@ -459,16 +459,7 @@ int main() {
     B<int> b(6, 3);
 
     return 0;
-};
-
-
-
-
-
-
-
-
-
+};*/
 
 
 // c++ 异常处理，根据抛出的异常数据类型，进入到相应的catch块中
@@ -551,12 +542,11 @@ void main() {
 }*/
 
 
-#include <stdexcept>
+/*#include <stdexcept>
 //标准异常（类似于JavaNullPointerException）
-/*class NullPointerException : public exception {
+class NullPointerException : public exception {
 public:
     NullPointerException(char *msg) : exception() {
-
     }
 };
 
@@ -584,7 +574,8 @@ int main() {
 }*/
 
 //外部类异常
-/*class Err {
+/*
+ * class Err {
 public:
     class MyException {
     public:
@@ -596,11 +587,17 @@ void mydiv(int a, int b) {
     if (b > 10) {
         throw Err::MyException();
     }
-};*/
+};
+ */
 
 
 
-extern; "C"
+
+
+
+
+
+extern "C"
 
 JNIEXPORT jstring JNICALL
 Java_com_example_jnidemo_cplusplusdemo_MainActivity_intFromJNI(
@@ -608,7 +605,7 @@ Java_com_example_jnidemo_cplusplusdemo_MainActivity_intFromJNI(
         jobject /* this */) {
     std::string hello = "Hello from C++";
 
-    main();
+//    main();
     return env->NewStringUTF(hello.c_str());
 }
 

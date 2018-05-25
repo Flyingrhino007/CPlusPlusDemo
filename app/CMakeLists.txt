@@ -58,3 +58,19 @@ target_link_libraries( # Specifies the target library.
                                                            # Links the target library to the log library
                                                            # included in the NDK.
                                                            ${log-lib} )
+
+   add_library( # Sets the name of the library.
+                                    02
+
+                                    # Sets the library as a shared library.
+                                    SHARED
+
+                                    # Provides a relative path to your source file(s).
+                                    src/main/cpp/02.cpp )
+
+                                    target_link_libraries( # Specifies the target library.
+                                                           02
+
+                                                           # Links the target library to the log library
+                                                           # included in the NDK.
+                                                           ${log-lib} )
