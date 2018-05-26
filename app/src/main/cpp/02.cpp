@@ -13,7 +13,7 @@ using namespace std;
 // static_cast 普遍情况
 // const_cast 去常量
 // dynamic_cast 子类类型转为父类类型
-// reinterpret_cast 函数指针类型，不具备移植性
+// reinterpret_cast 函数指针类型，不具备移植性，就是说不一定支持能够转换成功
 
 // //原始类型转换，所有情况都是一种写法，可读性不高，有可能有潜在的风险
 
@@ -79,8 +79,10 @@ void main() {
     func(c);// 打印出 hxllo
 };*/
 
+/*
 class Person {
 public:
+// 因为多态所以需要 virtual
     virtual void print(){
         cout << "人" << endl;
     }
@@ -109,15 +111,70 @@ public:
 };
 
 void func(Person *obj) {
+    obj->print();
+
+    // 调用子类的特有的函数，转为实际类型
+    // 并不知道转型失败  下面危险
+    //Man *man=(Man*)obj;
+    //man->print();
 
 
-};
+    //转型失败，返回NULL
+    Man* m=dynamic_cast<Man*>(obj);
+	if(m!=NULL){
+        m->chasing();
+	}
 
-void main(){
 
-
+    Woman* w = dynamic_cast<Woman*>(obj);
+	if (w != NULL){
+		w->carebaby();
+	}
 
 }
+
+void main(){
+    Woman  w1;
+    Person *p1=&w1;
+
+    func(p1)
+
+    //Woman w1;
+	//Woman* w_p = &w1;
+}*/
+
+/*
+void func1(){
+	cout << "func1" << endl;
+}
+
+char* func2(){
+	cout << "func2" << endl;
+	return "abc";
+}
+
+typedef void(*f_p)();// 函数指针类型
+
+void main(){
+//函数指针数组
+    f_p f_array[6];
+    //赋值
+    f_array[0] = func1;
+
+    //C方式
+	//f_array[1] = (f_p)(func2);
+    //C++方式
+	f_array[1] = reinterpret_cast<f_p>(func2);
+
+	f_array[1]();
+}*/
+
+
+
+
+
+
+
 
 
 
