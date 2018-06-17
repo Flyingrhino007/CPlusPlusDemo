@@ -74,3 +74,48 @@ target_link_libraries( # Specifies the target library.
                                                            # Links the target library to the log library
                                                            # included in the NDK.
                                                            ${log-lib} )
+   add_library( # Sets the name of the library.
+                                    native-lib2
+
+                                    # Sets the library as a shared library.
+                                    SHARED
+
+                                    # Provides a relative path to your source file(s).
+                                    src/main/cpp/native-lib2.cpp )
+
+                                    target_link_libraries( # Specifies the target library.
+                                                           native-lib2
+
+                                                           # Links the target library to the log library
+                                                           # included in the NDK.
+                                                           ${log-lib} )
+ add_library( # Sets the name of the library.
+                                    native-lib3
+
+                                    # Sets the library as a shared library.
+                                    SHARED
+
+                                    # Provides a relative path to your source file(s).
+                                    src/main/cpp/native-lib3.cpp )
+
+                                    target_link_libraries( # Specifies the target library.
+                                                           native-lib3
+
+                                                           # Links the target library to the log library
+                                                           # included in the NDK.
+                                                           ${log-lib} )
+ add_library( # Sets the name of the library.
+                                    native-lib4
+
+                                    # Sets the library as a shared library.
+                                    SHARED
+
+                                    # Provides a relative path to your source file(s).
+                                    src/main/cpp/native-lib4.cpp )
+
+                                    target_link_libraries( # Specifies the target library.
+                                                           native-lib4
+
+                                                           # Links the target library to the log library
+                                                           # included in the NDK.
+                                                           ${log-lib} )
