@@ -1,6 +1,6 @@
 # CPlusPlusDemo C++基础
 
-##< native-lib1 >
+## < native-lib1 >
 
 1 . 标准命名空间 using namespace (解决命名太长问题)<br>
 
@@ -40,7 +40,7 @@
 	
 ***
 
-###< 01.c，02.c >
+### < 01.c，02.c >
 
 1 . 类<br>
 
@@ -163,7 +163,7 @@
 		
 ***
 
-###< native-lib2，native-lib3，native-lib4 >
+### < native-lib2，native-lib3，native-lib4 >
 
 1 . 函数对象<br>
 
