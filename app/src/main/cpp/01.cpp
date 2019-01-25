@@ -284,9 +284,11 @@ void main() {
     b.name = "json";
 
     // 指定父类显示调用  ,这样就有2份
-    b.A1::name = "json";
-    b.A2::name = "json";
+    b.A1::name = "json1";
+    b.A2::name = "json2";
 
+    cout << b.A1::name << endl; // json2
+    cout << b.A2::name << endl; // json2
 }*/
 
 
