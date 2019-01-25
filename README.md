@@ -37,10 +37,8 @@
 		目的：外部使用友元函数，当前函数访问内部的私有属性
 	有元类：与有元函数类似，可以访问其有元的内部所有属性
 	重载：operator+ ，operator- ，可以在方法外部调用，也可以在类中的方法中使用
-	
-***
 
-### < 01.c，02.c >
+## < 01.c，02.c >
 
 1 . 类<br>
 
@@ -160,10 +158,8 @@
 		ofstream fout("c://c_obj.data", ios::binary);
 		fout.write((char*)(&p), sizeof(Person)); //指针能够读取到正确的数据，读取内存区的长度 
 		fout.close();
-		
-***
 
-### < native-lib2，native-lib3，native-lib4 >
+## < native-lib2，native-lib3，native-lib4 >
 
 1 . 函数对象<br>
 
